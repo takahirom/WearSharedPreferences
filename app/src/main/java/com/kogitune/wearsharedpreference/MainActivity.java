@@ -4,14 +4,36 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView text = (TextView) findViewById(R.id.text);
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("int_text",i++);
+                new WearGetText(MainActivity.this).get(bundle,new WearGetText.WearGetCallBack() {
+                    @Override
+                    public void onGet() {
+
+                    }
+
+                    @Override
+                    public void onFail(Exception e) {
+
+                    }
+                });
+            }
+        });
     }
 
 
