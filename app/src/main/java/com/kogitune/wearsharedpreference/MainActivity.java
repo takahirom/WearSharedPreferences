@@ -2,6 +2,7 @@ package com.kogitune.wearsharedpreference;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,25 +12,26 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 
     int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView text = (TextView) findViewById(R.id.text);
+        final TextView text = (TextView) findViewById(R.id.text);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("int_text",i++);
-                new WearGetText(MainActivity.this).get(bundle,new WearGetText.WearGetCallBack() {
+                bundle.putInt("int_text", i++);
+                new WearGetText(MainActivity.this).get(bundle, new WearGetText.WearGetCallBack() {
                     @Override
                     public void onGet() {
-
+                        text.setText("i:" + i);
                     }
 
                     @Override
                     public void onFail(Exception e) {
-
+                        Log.d("exception", "exception" + e.getMessage(), e);
                     }
                 });
             }
