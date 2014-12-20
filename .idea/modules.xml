@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WearSharedPreference.iml" filepath="$PROJECT_DIR$/WearSharedPreference.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wearsharedpreferencelib/wearsharedpreferencelib.iml" filepath="$PROJECT_DIR$/wearsharedpreferencelib/wearsharedpreferencelib.iml" />
     </modules>
   </component>
 </project>
