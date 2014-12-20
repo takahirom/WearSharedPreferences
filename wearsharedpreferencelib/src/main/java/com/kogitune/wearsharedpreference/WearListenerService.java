@@ -54,7 +54,7 @@ public class WearListenerService extends WearableListenerService {
         SharedPreferences wearSharedPreference = getSharedPreferences("WearSharedPreference", MODE_PRIVATE);
 
         // SAVE
-        saveBundle(wearSharedPreference.edit(),bundle);
+        new SharedPreferenceUtil(wearSharedPreference).saveBundle(bundle);
 
         // Create DataMap instance
         PutDataMapRequest dataMapRequest = PutDataMapRequest.create("/datapath");
@@ -77,35 +77,7 @@ public class WearListenerService extends WearableListenerService {
                 });
     }
 
-    /**
-     * Manually save a Bundle object to SharedPreferences.
-     * @param ed
-     * @param bundle
-     */
-    private void saveBundle(SharedPreferences.Editor ed, Bundle bundle) {
-        Set<String> keySet = bundle.keySet();
-        Iterator<String> it = keySet.iterator();
 
-        while (it.hasNext()){
-            String key = it.next();
-            Object o = bundle.get(key);
-            if (o == null){
-                ed.remove(key);
-            } else if (o instanceof Integer){
-                ed.putInt(key, (Integer) o);
-            } else if (o instanceof Long){
-                ed.putLong(key, (Long) o);
-            } else if (o instanceof Boolean){
-                ed.putBoolean(key, (Boolean) o);
-            } else if (o instanceof CharSequence){
-                ed.putString(key, ((CharSequence) o).toString());
-            } else if (o instanceof Bundle){
-                saveBundle(ed, ((Bundle) o));
-            }
-        }
-
-        ed.commit();
-    }
 
 
 }

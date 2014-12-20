@@ -24,5 +24,4 @@ dependencies {
     compile project(':wearsharedpreferencelib')
     wearApp project(':wear')
     compile 'com.android.support:appcompat-v7:21.0.2'
-    compile 'com.google.android.gms:play-services:6.1.71'
 }
