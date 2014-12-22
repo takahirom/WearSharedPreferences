@@ -1,6 +1,7 @@
 package com.kogitune.wearsharedpreference;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcel;
 
@@ -10,6 +11,8 @@ import android.os.Parcel;
 public class WearGetText extends WearGet {
 
     private WearGetCallBack mCallBack;
+    private Bundle mBundle;
+    private SharedPreferences mPreferences;
 
     public WearGetText(Context context) {
         super(context);
@@ -33,6 +36,7 @@ public class WearGetText extends WearGet {
 
     public void get(final Bundle bundle, final WearGetCallBack callBack, final int timeOutSeconds) {
         mCallBack = callBack;
+        mBundle = bundle;
         super.get(bundle, timeOutSeconds);
     }
 
@@ -41,9 +45,6 @@ public class WearGetText extends WearGet {
         if (mCallBack == null) {
             return;
         }
-        Parcel parcel = Parcel.obtain();
-        ;
-
         mCallBack.onGet();
         mCallBack = null;
     }

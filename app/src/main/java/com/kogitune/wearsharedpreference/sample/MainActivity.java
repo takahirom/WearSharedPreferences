@@ -1,39 +1,41 @@
 package com.kogitune.wearsharedpreference.sample;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kogitune.wearsharedpreference.WearGetText;
+import com.kogitune.wearsharedpreference.WearSharedPreference;
 
 
 public class MainActivity extends ActionBarActivity {
 
     int i = 0;
+    String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TextView text = (TextView) findViewById(R.id.text);
+        final WearSharedPreference wearSharedPreference = new WearSharedPreference(MainActivity.this);
+        i = wearSharedPreference.getInt("int_text", 0);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("int_text", i++);
-                new WearGetText(MainActivity.this).get(bundle, new WearGetText.WearGetCallBack() {
+                wearSharedPreference.put("int_text", ++i);
+                wearSharedPreference.sync(new WearSharedPreference.OnSyncListener() {
                     @Override
-                    public void onGet() {
+                    public void onSuccess() {
                         text.setText("i:" + i);
                     }
 
                     @Override
                     public void onFail(Exception e) {
-                        Log.d("exception", "exception" + e.getMessage(), e);
+                        Log.d(TAG, "e.message():" + e.getMessage());
                     }
                 });
             }

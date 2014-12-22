@@ -17,8 +17,7 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class WearListenerService extends WearableListenerService {
 
-    private static final String TAG = "WearHttpListenerService";
+    private static final String TAG = "WearListenerService";
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -76,8 +75,6 @@ public class WearListenerService extends WearableListenerService {
                     }
                 });
     }
-
-
 
 
 }
