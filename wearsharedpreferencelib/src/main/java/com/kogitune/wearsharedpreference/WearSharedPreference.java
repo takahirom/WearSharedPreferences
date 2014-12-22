@@ -24,12 +24,37 @@ public class WearSharedPreference {
         mWearGetText = new WearGetText(context);
     }
 
-    public void put(String key, int i) {
-        mBundle.putInt(key, i);
+    public void put(String key, int val) {
+        mBundle.putInt(key, val);
     }
 
-    public int getInt(String key, int defaultInt) {
+    public void put(String key, String val) {
+        mBundle.putString(key, val);
+    }
+
+    public void put(String key, boolean val) {
+        mBundle.putBoolean(key, val);
+    }
+
+    public void put(String key, float val) {
+        mBundle.putFloat(key, val);
+    }
+
+
+    public int get(String key, int defaultInt) {
         return mPreferences.getInt(key, defaultInt);
+    }
+
+    public String get(String key, String defaultInt) {
+        return mPreferences.getString(key, defaultInt);
+    }
+
+    public boolean get(String key, boolean defaultInt) {
+        return mPreferences.getBoolean(key, defaultInt);
+    }
+
+    public float get(String key, float defaultInt) {
+        return mPreferences.getFloat(key, defaultInt);
     }
 
     public void sync(final OnSyncListener syncListener) {

@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         final TextView text = (TextView) findViewById(R.id.text);
         final WearSharedPreference wearSharedPreference = new WearSharedPreference(MainActivity.this);
-        i = wearSharedPreference.getInt("int_text", 0);
+        i = wearSharedPreference.get("int_text", 0);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
