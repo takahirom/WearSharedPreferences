@@ -47,10 +47,15 @@ public class WearListenerService extends WearableListenerService {
             return;
         }
         Log.d(TAG, "ByteArray" + messageEvent.getData().length);
-        Parcel parcel = Parcel.obtain();
-        parcel.readByteArray(messageEvent.getData());
-        Bundle bundle = parcel.readBundle();
-        SharedPreferences wearSharedPreference = getSharedPreferences("WearSharedPreference", MODE_PRIVATE);
+
+        byte[] bundleBytes = messageEvent.getData();
+        final Parcel parcel = Parcel.obtain();
+        parcel.unmarshall(bundleBytes, 0, bundleBytes.length);
+        parcel.setDataPosition(0);
+        Bundle bundle = (Bundle) parcel.readBundle();
+        parcel.recycle();
+
+        SharedPreferences wearSharedPreference = getSharedPreferences(WearSharedPreference.WEAR_SHARED_PREFERENCE_NAME, MODE_MULTI_PROCESS);
 
         // SAVE
         new SharedPreferenceUtil(wearSharedPreference).saveBundle(bundle);

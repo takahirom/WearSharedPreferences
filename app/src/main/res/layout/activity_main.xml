@@ -8,8 +8,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text"
+    <Button
+        android:id="@+id/button_iteration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1" />

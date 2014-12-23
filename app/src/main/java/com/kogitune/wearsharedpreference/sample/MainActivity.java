@@ -1,36 +1,44 @@
 package com.kogitune.wearsharedpreference.sample;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.kogitune.wearsharedpreference.WearSharedPreference;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
-    int i = 0;
     String TAG = "MainActivity";
+    private WearSharedPreference mWearSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView text = (TextView) findViewById(R.id.text);
-        final WearSharedPreference wearSharedPreference = new WearSharedPreference(MainActivity.this);
-        i = wearSharedPreference.get("int_text", 0);
-        text.setOnClickListener(new View.OnClickListener() {
+        mWearSharedPreference = new WearSharedPreference(MainActivity.this);
+        setupIterateButton();
+    }
+
+    private void setupIterateButton() {
+        final String incrementPreferenceKey = getString(R.string.key_preference_increment);
+        final Button iterateButton = (Button) findViewById(R.id.button_iteration);
+        iterateButton.setText("i:" + mWearSharedPreference.get(incrementPreferenceKey, 0));
+        iterateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wearSharedPreference.put("int_text", ++i);
-                wearSharedPreference.sync(new WearSharedPreference.OnSyncListener() {
+                final int i = mWearSharedPreference.get(incrementPreferenceKey, 0);
+                final int plusI = i + 1;
+                mWearSharedPreference.put(incrementPreferenceKey, plusI);
+                mWearSharedPreference.sync(new WearSharedPreference.OnSyncListener() {
                     @Override
                     public void onSuccess() {
-                        text.setText("i:" + i);
+                        iterateButton.setText("i:" + plusI);
                     }
 
                     @Override

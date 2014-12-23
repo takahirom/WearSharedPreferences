@@ -17,3 +17,8 @@ allprojects {
         jcenter()
     }
 }
+subprojects {
+    afterEvaluate { project ->
+        project.android.defaultConfig.resValue "string", "key_preference_increment", "key_preference_increment"
+    }
+}

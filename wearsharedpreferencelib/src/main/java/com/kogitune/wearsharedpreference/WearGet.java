@@ -128,12 +128,8 @@ abstract class WearGet implements GoogleApiClient.OnConnectionFailedListener, Da
 
         final Parcel parcel = Parcel.obtain();
         bundle.writeToParcel(parcel, 0);
-
-        byte[] byteArray = parcel.createByteArray();
-        byte[] byteArray2 = new byte[1000];
-        parcel.readByteArray(byteArray2);
-        Log.d(TAG, new String(byteArray));
-        Log.d(TAG, new String(byteArray2));
+        byte[] byteArray = parcel.marshall();
+        parcel.recycle();
 
         mPendingResult = Wearable.MessageApi
                 .sendMessage(mGoogleApiClient, node, "/http/get", byteArray);
