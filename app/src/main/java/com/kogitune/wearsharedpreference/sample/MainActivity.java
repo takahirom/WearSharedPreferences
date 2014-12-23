@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.kogitune.wearsharedpreference.WearSharedPreference;
 
@@ -23,7 +23,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mWearSharedPreference = new WearSharedPreference(MainActivity.this);
         setupIterateButton();
+        setupEditText();
     }
+
 
     private void setupIterateButton() {
         final String incrementPreferenceKey = getString(R.string.key_preference_increment);
@@ -39,6 +41,32 @@ public class MainActivity extends Activity {
                     @Override
                     public void onSuccess() {
                         iterateButton.setText("i:" + plusI);
+                    }
+
+                    @Override
+                    public void onFail(Exception e) {
+                        Log.d(TAG, "e.message():" + e.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
+    private void setupEditText() {
+
+        final String editTextPreferenceKey = getString(R.string.key_preference_text_edit);
+        final EditText editText = (EditText) findViewById(R.id.edit_text);
+        final Button editSyncButton = (Button) findViewById(R.id.button_edit_sync);
+        editText.setText(mWearSharedPreference.get(editTextPreferenceKey, "empty"));
+        editSyncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String s = editText.getText().toString();
+                mWearSharedPreference.put(editTextPreferenceKey, s);
+                mWearSharedPreference.sync(new WearSharedPreference.OnSyncListener() {
+                    @Override
+                    public void onSuccess() {
+                        editText.setText(s);
                     }
 
                     @Override

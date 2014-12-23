@@ -19,6 +19,9 @@ allprojects {
 }
 subprojects {
     afterEvaluate { project ->
-        project.android.defaultConfig.resValue "string", "key_preference_increment", "key_preference_increment"
+        project.android.defaultConfig.with{
+            resValue "string", "key_preference_increment", "key_preference_increment"
+            resValue "string", "key_preference_text_edit", "key_preference_text_edit"
+        }
     }
 }

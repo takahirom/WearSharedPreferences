@@ -14,4 +14,24 @@
         android:layout_height="wrap_content"
         android:text="1" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_iteration"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/button_edit_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sync" />
+
+    </LinearLayout>
+
 </RelativeLayout>
