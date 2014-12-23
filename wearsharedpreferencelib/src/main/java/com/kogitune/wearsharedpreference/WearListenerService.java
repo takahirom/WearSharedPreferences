@@ -17,7 +17,6 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.Date;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,6 +46,7 @@ public class WearListenerService extends WearableListenerService {
             Log.e(TAG, "Failed to connect to GoogleApiClient.");
             return;
         }
+        Log.d(TAG, "ByteArray" + messageEvent.getData().length);
         Parcel parcel = Parcel.obtain();
         parcel.readByteArray(messageEvent.getData());
         Bundle bundle = parcel.readBundle();

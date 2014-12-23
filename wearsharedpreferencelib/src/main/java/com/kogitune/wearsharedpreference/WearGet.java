@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -128,8 +129,14 @@ abstract class WearGet implements GoogleApiClient.OnConnectionFailedListener, Da
         final Parcel parcel = Parcel.obtain();
         bundle.writeToParcel(parcel, 0);
 
+        byte[] byteArray = parcel.createByteArray();
+        byte[] byteArray2 = new byte[1000];
+        parcel.readByteArray(byteArray2);
+        Log.d(TAG, new String(byteArray));
+        Log.d(TAG, new String(byteArray2));
+
         mPendingResult = Wearable.MessageApi
-                .sendMessage(mGoogleApiClient, node, "/http/get", parcel.createByteArray());
+                .sendMessage(mGoogleApiClient, node, "/http/get", byteArray);
         mPendingResult.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
             @Override
             public void onResult(MessageApi.SendMessageResult sendMessageResult) {
