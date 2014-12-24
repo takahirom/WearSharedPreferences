@@ -9,5 +9,13 @@ android:
     - sys-img-x86-android-wear-20
     - android-21
 
+before_install:
+  - ./gradlew tasks &
+  - android list sdk --no-ui --all --extended
+  - echo "no"|android create avd --force -n Phone --target "android-19" --abi armeabi-v7a
+  - echo "no"|android create avd --force -n WatchRound --target "android-20" --device "Android Wear Round" --skin AndroidWearRound --abi android-wear/armeabi-v7a &
+  - emulator -avd Phone -no-skin -no-audio -no-window &
+  - emulator -avd WatchRound -no-skin -no-audio -no-window &
+  - adb wait-for-device
 script:
-    - ./gradlew clean check
+  - ./gradlew connectedAndroidTest
