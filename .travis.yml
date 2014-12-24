@@ -1,0 +1,13 @@
+language: android
+
+android:
+  components:
+    - build-tools-21.1.1
+    - extra-android-m2repository
+    - extra-google-m2repository
+    - extra-google-google_play_services
+    - sys-img-x86-android-wear-20
+    - android-21
+
+script:
+    - ./gradlew clean check
