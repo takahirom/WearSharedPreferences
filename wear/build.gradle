@@ -4,6 +4,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
 
     defaultConfig {
         applicationId "com.kogitune.wearsharedpreference.sample"
@@ -11,6 +14,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -25,4 +29,9 @@ dependencies {
     compile 'com.google.android.support:wearable:1.0.0'
     compile 'com.google.android.gms:play-services-wearable:6.1.71'
     compile project(':wearsharedpreferencelib')
+
+    compile 'com.android.support:support-annotations:21.0.3'
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }

@@ -11,6 +11,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,5 +28,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':wearsharedpreferencelib')
     wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:21.0.2'
+
+    compile 'com.android.support:support-annotations:21.0.+'
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }
