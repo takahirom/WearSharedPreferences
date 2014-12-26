@@ -16,11 +16,12 @@ before_install:
   - echo "no"|android create avd --force -n Phone --target "android-19" --abi armeabi-v7a
   - echo "no"|android create avd --force -n WatchRound --target "android-20" --device "Android Wear Round" --skin AndroidWearRound --abi android-wear/armeabi-v7a
   - emulator -avd Phone -no-skin -no-audio -no-window &
-  - adb wait-for-device
   - emulator -avd WatchRound -no-skin -no-audio -no-window &
-  - adb wait-for-device
+  - ./gradlew assembleDebugTest
+  - sleep 300
+  - timeout 590 android-wait-for-emulator
   - adb devices
 script:
   - jobs
   - adb devices
-  - ./gradlew connectedAndroidTest
+  - ./gradlew app:connectedAndroidTest
