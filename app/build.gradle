@@ -27,7 +27,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':wearsharedpreferencelib')
+    compile project(':wearsharedpreferenceslib')
     wearApp project(':wear')
 
     compile 'com.android.support:support-annotations:21.0.+'

@@ -28,7 +28,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.support:wearable:1.0.0'
     compile 'com.google.android.gms:play-services-wearable:6.1.71'
-    compile project(':wearsharedpreferencelib')
+    compile project(':wearsharedpreferenceslib')
 
     compile 'com.android.support:support-annotations:21.0.3'
 
