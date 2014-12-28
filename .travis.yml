@@ -12,7 +12,7 @@ before_install:
 - android list sdk --no-ui --all --extended
 - echo "no"|android create avd --force -n Phone --target "android-19" --abi armeabi-v7a
 - emulator -avd Phone -no-skin -no-audio -no-window &
-- sleep 15
+- sleep 30
 - ./gradlew app:assembleDebugTest
 - timeout 430 android-wait-for-emulator | xargs echo
 - adb devices
