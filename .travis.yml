@@ -26,4 +26,5 @@ before_install:
   - adb devices
 script:
   - ./gradlew app:connectedAndroidTest
+  - cat app/build/outputs/reports/androidTests/connected/index.html
   - adb devices
