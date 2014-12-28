@@ -1,30 +1,29 @@
 language: android
-
 bundler_args: --retry 3
-
 android:
   components:
-    - build-tools-21.1.2
-    - extra-android-m2repository
-    - extra-google-m2repository
-    - extra-google-google_play_services
-    - sys-img-x86-android-wear-20
-    - android-21
-
+  - build-tools-21.1.2
+  - extra-android-m2repository
+  - extra-google-m2repository
+  - extra-google-google_play_services
+  - sys-img-x86-android-wear-20
+  - android-21
 before_install:
-  - android list sdk --no-ui --all --extended
-  - echo "no"|android create avd --force -n Phone --target "android-19" --abi armeabi-v7a
-  #- sleep 10
-  #- echo "no"|android create avd --force -n WatchRound --target "android-20" --device "Android Wear Round" --skin AndroidWearRound --abi android-wear/armeabi-v7a
-  #- sleep 10
-  - emulator -avd Phone -no-skin -no-audio -no-window &
-  #- sleep 15
-  #- emulator -avd WatchRound -verbose -no-skin -no-audio -no-window &
-  - sleep 15
-  - ./gradlew app:assembleDebugTest
-  - timeout 430 android-wait-for-emulator | xargs echo
-  - adb devices
+- android list sdk --no-ui --all --extended
+- echo "no"|android create avd --force -n Phone --target "android-19" --abi armeabi-v7a
+- emulator -avd Phone -no-skin -no-audio -no-window &
+- sleep 15
+- ./gradlew app:assembleDebugTest
+- timeout 430 android-wait-for-emulator | xargs echo
+- adb devices
 script:
-  - ./gradlew app:connectedAndroidTest
-  - cat app/build/outputs/reports/androidTests/connected/index.html
-  - adb devices
+- ./gradlew app:connectedAndroidTest
+- cat app/build/outputs/reports/androidTests/connected/index.html
+- adb devices
+deploy:
+  provider: releases
+  api_key:
+    secure: Up7/lq/ip7QVGNvFk6A4OtcrT1q2NwzJBBsdyNuSkr4+rVRla5fxteSxH/lazYONUiU4K+XRBIDodp+OV6ODfoUZ1jSk6XeVSFfn5KehtGDbtVP6DEzBlDhJii1SDc6a6Rl9+9xpbHWNex76ziTTk9vTgFHq5+WiM73/CKboqXY=
+  file: app/build/outputs/reports/androidTests/connected/index.html
+  on:
+    repo: takahirom/WearSharedPreferences
