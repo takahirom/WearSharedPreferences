@@ -20,7 +20,7 @@ before_install:
   - emulator -avd Phone -no-skin -no-audio -no-window &
   #- sleep 15
   #- emulator -avd WatchRound -verbose -no-skin -no-audio -no-window &
-  #- sleep 15
+  - sleep 15
   - ./gradlew app:assembleDebugTest
   - timeout 430 android-wait-for-emulator | xargs echo
   - adb devices

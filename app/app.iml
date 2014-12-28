@@ -83,19 +83,21 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="play-services-wearable-6.1.71" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="testing-support-lib-0.1" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.0" level="project" />
+    <orderEntry type="library" exported="" name="wear-shared-preferences-0.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="testing-support-lib-0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="junit-dep-4.10" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.1" level="project" />
-    <orderEntry type="module" module-name="wearsharedpreferenceslib" exported="" />
+    <orderEntry type="library" exported="" scope="TEST" name="junit-dep-4.10" level="project" />
   </component>
 </module>
 
