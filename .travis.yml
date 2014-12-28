@@ -27,3 +27,5 @@ deploy:
   file: app/build/outputs/reports/androidTests/connected/index.html
   on:
     repo: takahirom/WearSharedPreferences
+    tags: true
+    all_branches: true
