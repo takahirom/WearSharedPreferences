@@ -19,12 +19,12 @@ public class WearSharedPreference {
     private final Context mContext;
     private SharedPreferences mPreferences;
     private final Bundle mBundle;
-    private final WearGetText mWearGetText;
+    private final WearBundleSyncer mWearBundleSyncer;
 
     public WearSharedPreference(Context context) {
         mContext = context;
         mBundle = new Bundle();
-        mWearGetText = new WearGetText(context);
+        mWearBundleSyncer = new WearBundleSyncer(context);
     }
 
     private void updatePreference() {
@@ -69,7 +69,7 @@ public class WearSharedPreference {
     }
 
     public void sync(final OnSyncListener syncListener) {
-        mWearGetText.get(mBundle, new WearGetText.WearGetCallBack() {
+        mWearBundleSyncer.get(mBundle, new WearBundleSyncer.WearGetCallBack() {
             @Override
             public void onGet() {
                 new SharedPreferenceUtil(mPreferences).saveBundle(mBundle);

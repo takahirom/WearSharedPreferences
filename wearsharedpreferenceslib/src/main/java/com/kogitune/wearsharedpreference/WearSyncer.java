@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by takam on 2014/09/07.
  */
-abstract class WearGet implements GoogleApiClient.OnConnectionFailedListener, DataApi.DataListener {
+abstract class WearSyncer implements GoogleApiClient.OnConnectionFailedListener, DataApi.DataListener {
 
     int mReqId;
     private PendingResult<MessageApi.SendMessageResult> mPendingResult;
@@ -40,7 +39,7 @@ abstract class WearGet implements GoogleApiClient.OnConnectionFailedListener, Da
     private final GoogleApiClient mGoogleApiClient;
     public String TAG = getClass().getPackage().getName();
 
-    public WearGet(Context context) {
+    public WearSyncer(Context context) {
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addOnConnectionFailedListener(this)
                 .addApi(Wearable.API)
@@ -99,7 +98,7 @@ abstract class WearGet implements GoogleApiClient.OnConnectionFailedListener, Da
                     } else {
                         callSuccessOnUIThread();
                     }
-                    Wearable.DataApi.removeListener(mGoogleApiClient, WearGet.this);
+                    Wearable.DataApi.removeListener(mGoogleApiClient, WearSyncer.this);
                     mGoogleApiClient.disconnect();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -3,18 +3,17 @@ package com.kogitune.wearsharedpreference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcel;
 
 /**
  * Created by takam on 2014/09/21.
  */
-public class WearGetText extends WearGet {
+public class WearBundleSyncer extends WearSyncer {
 
     private WearGetCallBack mCallBack;
     private Bundle mBundle;
     private SharedPreferences mPreferences;
 
-    public WearGetText(Context context) {
+    public WearBundleSyncer(Context context) {
         super(context);
     }
 
