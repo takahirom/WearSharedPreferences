@@ -27,10 +27,13 @@ public class WearListenerService extends WearableListenerService {
 
     private static final String TAG = "WearListenerService";
     private GoogleApiClient mGoogleApiClient;
-    public static final String MESSAGE_EVENT_PATH = "MESSAGE_EVENT_PATH";
-    public static final String MESSAGE_EVENT_DATA = "MESSAGE_EVENT_DATA";
-    public static final String MESSAGE_EVENT_REQUEST_ID = "MESSAGE_EVENT_REQUEST_ID";
-    public static final String MESSAGE_EVENT_SOURCE_NODE_ID = "MESSAGE_EVENT_SOURCE_NODE_ID";
+
+    public static final String MESSAGE_EVENT_PATH = "/preferences/sync";
+
+    public static final String MESSAGE_EVENT_PATH_KEY = "MESSAGE_EVENT_PATH_KEY";
+    public static final String MESSAGE_EVENT_DATA_KEY = "MESSAGE_EVENT_DATA_KEY";
+    public static final String MESSAGE_EVENT_REQUEST_ID_KEY = "MESSAGE_EVENT_REQUEST_ID_KEY";
+    public static final String MESSAGE_EVENT_SOURCE_NODE_ID_KEY = "MESSAGE_EVENT_SOURCE_NODE_ID_KEY";
 
     @Override
     public void onCreate() {
@@ -46,27 +49,30 @@ public class WearListenerService extends WearableListenerService {
         if (intent == null) {
             return START_NOT_STICKY;
         }
-        if (!intent.hasExtra(MESSAGE_EVENT_PATH)) {
+        if (!intent.hasExtra(MESSAGE_EVENT_PATH_KEY)) {
             return START_NOT_STICKY;
         }
-        handleEvent(intent.getStringExtra(MESSAGE_EVENT_PATH), intent.getByteArrayExtra(MESSAGE_EVENT_DATA), intent.getIntExtra(MESSAGE_EVENT_REQUEST_ID, 0), intent.getStringExtra(MESSAGE_EVENT_SOURCE_NODE_ID));
+        handleEvent(intent.getStringExtra(MESSAGE_EVENT_PATH_KEY), intent.getByteArrayExtra(MESSAGE_EVENT_DATA_KEY), intent.getIntExtra(MESSAGE_EVENT_REQUEST_ID_KEY, 0), intent.getStringExtra(MESSAGE_EVENT_SOURCE_NODE_ID_KEY));
         return START_NOT_STICKY;
     }
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
+
         final Intent intent = new Intent();
         intent.setPackage(getPackageName());
-        intent.putExtra(MESSAGE_EVENT_PATH, messageEvent.getPath());
-        intent.putExtra(MESSAGE_EVENT_DATA, messageEvent.getData());
-        intent.putExtra(MESSAGE_EVENT_REQUEST_ID, messageEvent.getRequestId());
-        intent.putExtra(MESSAGE_EVENT_SOURCE_NODE_ID, messageEvent.getSourceNodeId());
+        intent.putExtra(MESSAGE_EVENT_PATH_KEY, messageEvent.getPath());
+        intent.putExtra(MESSAGE_EVENT_DATA_KEY, messageEvent.getData());
+        intent.putExtra(MESSAGE_EVENT_REQUEST_ID_KEY, messageEvent.getRequestId());
+        intent.putExtra(MESSAGE_EVENT_SOURCE_NODE_ID_KEY, messageEvent.getSourceNodeId());
         sendBroadcast(intent);
     }
 
     private void handleEvent(final String path, final byte[] data, final int requestId, final String sourceNodeId) {
-
+        if (!MESSAGE_EVENT_PATH.equals(path)) {
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -77,6 +83,7 @@ public class WearListenerService extends WearableListenerService {
     }
 
     private void tellSavedPreferences(byte[] data, int requestId) {
+
         ConnectionResult connectionResult =
                 mGoogleApiClient.blockingConnect(30, TimeUnit.SECONDS);
 

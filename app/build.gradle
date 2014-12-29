@@ -31,8 +31,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':wearsharedpreferenceslib')
-    //compile 'com.kogitune:wear-shared-preferences:0.0.1'
+    //compile project(':wearsharedpreferenceslib')
+    compile 'com.kogitune:wear-shared-preferences:0.0.1'
 
     wearApp project(':wear')
 
