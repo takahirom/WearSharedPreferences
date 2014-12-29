@@ -1,5 +1,6 @@
 package com.kogitune.wearsharedpreference;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -26,6 +27,10 @@ public class WearListenerService extends WearableListenerService {
 
     private static final String TAG = "WearListenerService";
     private GoogleApiClient mGoogleApiClient;
+    public static final String MESSAGE_EVENT_PATH = "MESSAGE_EVENT_PATH";
+    public static final String MESSAGE_EVENT_DATA = "MESSAGE_EVENT_DATA";
+    public static final String MESSAGE_EVENT_REQUEST_ID = "MESSAGE_EVENT_REQUEST_ID";
+    public static final String MESSAGE_EVENT_SOURCE_NODE_ID = "MESSAGE_EVENT_SOURCE_NODE_ID";
 
     @Override
     public void onCreate() {
@@ -37,12 +42,41 @@ public class WearListenerService extends WearableListenerService {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) {
+            return START_NOT_STICKY;
+        }
+        if (!intent.hasExtra(MESSAGE_EVENT_PATH)) {
+            return START_NOT_STICKY;
+        }
+        handleEvent(intent.getStringExtra(MESSAGE_EVENT_PATH), intent.getByteArrayExtra(MESSAGE_EVENT_DATA), intent.getIntExtra(MESSAGE_EVENT_REQUEST_ID, 0), intent.getStringExtra(MESSAGE_EVENT_SOURCE_NODE_ID));
+        return START_NOT_STICKY;
+    }
+
+    @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
-        if(!"/preferences/sync".equals(messageEvent.getPath())){
-            super.onMessageReceived(messageEvent);
-            return;
-        }
+        final Intent intent = new Intent();
+        intent.setPackage(getPackageName());
+        intent.putExtra(MESSAGE_EVENT_PATH, messageEvent.getPath());
+        intent.putExtra(MESSAGE_EVENT_DATA, messageEvent.getData());
+        intent.putExtra(MESSAGE_EVENT_REQUEST_ID, messageEvent.getRequestId());
+        intent.putExtra(MESSAGE_EVENT_SOURCE_NODE_ID, messageEvent.getSourceNodeId());
+        sendBroadcast(intent);
+    }
+
+    private void handleEvent(final String path, final byte[] data, final int requestId, final String sourceNodeId) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tellSavedPreferences(data, requestId);
+            }
+        }).start();
+
+    }
+
+    private void tellSavedPreferences(byte[] data, int requestId) {
         ConnectionResult connectionResult =
                 mGoogleApiClient.blockingConnect(30, TimeUnit.SECONDS);
 
@@ -51,7 +85,7 @@ public class WearListenerService extends WearableListenerService {
             return;
         }
 
-        byte[] bundleBytes = messageEvent.getData();
+        byte[] bundleBytes = data;
         final Parcel parcel = Parcel.obtain();
         parcel.unmarshall(bundleBytes, 0, bundleBytes.length);
         parcel.setDataPosition(0);
@@ -69,7 +103,7 @@ public class WearListenerService extends WearableListenerService {
 
         // set data
         dataMap.putLong("time", new Date().getTime());
-        dataMap.putBoolean("reqId:" + messageEvent.getRequestId(), true);
+        dataMap.putBoolean("reqId:" + requestId, true);
 
         // refresh data
         final PutDataRequest request = dataMapRequest.asPutDataRequest();
