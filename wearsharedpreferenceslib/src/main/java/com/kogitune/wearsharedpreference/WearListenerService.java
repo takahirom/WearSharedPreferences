@@ -39,6 +39,10 @@ public class WearListenerService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
+        if(!"/preferences/sync".equals(messageEvent.getPath())){
+            super.onMessageReceived(messageEvent);
+            return;
+        }
         ConnectionResult connectionResult =
                 mGoogleApiClient.blockingConnect(30, TimeUnit.SECONDS);
 
@@ -46,7 +50,6 @@ public class WearListenerService extends WearableListenerService {
             Log.e(TAG, "Failed to connect to GoogleApiClient.");
             return;
         }
-        Log.d(TAG, "ByteArray" + messageEvent.getData().length);
 
         byte[] bundleBytes = messageEvent.getData();
         final Parcel parcel = Parcel.obtain();

@@ -131,7 +131,7 @@ abstract class WearSyncer implements GoogleApiClient.OnConnectionFailedListener,
         parcel.recycle();
 
         mPendingResult = Wearable.MessageApi
-                .sendMessage(mGoogleApiClient, node, "/http/get", byteArray);
+                .sendMessage(mGoogleApiClient, node, "/preferences/sync", byteArray);
         mPendingResult.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
             @Override
             public void onResult(MessageApi.SendMessageResult sendMessageResult) {
