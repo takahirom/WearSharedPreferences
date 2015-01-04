@@ -11,9 +11,6 @@
             android:name=".WearListenerService"
             android:exported="true"
             android:process=":remote" >
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
-            </intent-filter>
         </service>
 
         <receiver

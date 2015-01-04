@@ -1,3 +1,12 @@
+rootProject.allprojects {
+    it.repositories {
+        maven {
+            url 'http://raw.github.com/takahirom/WearableListenerServiceBroadcaster/master/repository/'
+        }
+    }
+}
+
+
 apply plugin: 'com.android.library'
 
 android {
@@ -22,10 +31,10 @@ android {
     }
 }
 
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.gms:play-services-wearable:6.1.71'
+    compile 'com.kogitune:wearable-listener-service-broadcaster:0.0.1'
 }
 
 def repo = new File(rootDir, "repository")
