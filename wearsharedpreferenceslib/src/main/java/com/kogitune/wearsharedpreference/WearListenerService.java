@@ -1,5 +1,6 @@
 package com.kogitune.wearsharedpreference;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by takam on 2014/09/07.
  */
-public class WearListenerService extends WearableListenerService {
+public class WearListenerService extends IntentService {
 
     private static final String TAG = "WearListenerService";
     private GoogleApiClient mGoogleApiClient;
@@ -45,28 +46,8 @@ public class WearListenerService extends WearableListenerService {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent == null) {
-            return START_NOT_STICKY;
-        }
-        if (!intent.hasExtra(MESSAGE_EVENT_PATH_KEY)) {
-            return START_NOT_STICKY;
-        }
+    protected void onHandleIntent(Intent intent) {
         handleEvent(intent.getStringExtra(MESSAGE_EVENT_PATH_KEY), intent.getByteArrayExtra(MESSAGE_EVENT_DATA_KEY), intent.getIntExtra(MESSAGE_EVENT_REQUEST_ID_KEY, 0), intent.getStringExtra(MESSAGE_EVENT_SOURCE_NODE_ID_KEY));
-        return START_NOT_STICKY;
-    }
-
-    @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        super.onMessageReceived(messageEvent);
-
-        final Intent intent = new Intent();
-        intent.setPackage(getPackageName());
-        intent.putExtra(MESSAGE_EVENT_PATH_KEY, messageEvent.getPath());
-        intent.putExtra(MESSAGE_EVENT_DATA_KEY, messageEvent.getData());
-        intent.putExtra(MESSAGE_EVENT_REQUEST_ID_KEY, messageEvent.getRequestId());
-        intent.putExtra(MESSAGE_EVENT_SOURCE_NODE_ID_KEY, messageEvent.getSourceNodeId());
-        sendBroadcast(intent);
     }
 
     private void handleEvent(final String path, final byte[] data, final int requestId, final String sourceNodeId) {
