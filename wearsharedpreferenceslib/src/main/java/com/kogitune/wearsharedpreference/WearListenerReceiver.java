@@ -15,7 +15,7 @@ public class WearListenerReceiver extends BroadcastReceiver {
             Log.d("WearSharedPreferences/WearListenerReciever", "onReceive");
         }
         final Context applicationContext = context.getApplicationContext();
-        intent.setClass(applicationContext, WearListenerService.class);
+        intent.setClass(applicationContext, PReferencesSaveService.class);
         applicationContext.startService(intent);
     }
 }

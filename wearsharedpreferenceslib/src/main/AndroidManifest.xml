@@ -8,7 +8,7 @@
 
     <application>
         <service
-            android:name=".WearListenerService"
+            android:name=".PReferencesSaveService"
             android:exported="true"
             android:process=":remote" >
         </service>
