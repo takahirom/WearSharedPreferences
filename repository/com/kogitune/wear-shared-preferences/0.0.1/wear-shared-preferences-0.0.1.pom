@@ -9,7 +9,7 @@
   <dependencies>
     <dependency>
       <groupId>com.kogitune</groupId>
-      <artifactId>wearable-listener-service-broadcaster</artifactId>
+      <artifactId>library</artifactId>
       <version>0.0.1</version>
       <scope>compile</scope>
     </dependency>
