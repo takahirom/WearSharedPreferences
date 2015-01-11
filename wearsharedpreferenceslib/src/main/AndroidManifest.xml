@@ -8,7 +8,7 @@
 
     <application>
         <service
-            android:name=".PReferencesSaveService"
+            android:name=".PreferencesSaveService"
             android:exported="true"
             android:process=":remote" >
         </service>

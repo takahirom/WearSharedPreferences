@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +30,10 @@ public class PreferencesSaveService extends IntentService {
     private GoogleApiClient mGoogleApiClient;
 
     public static final String MESSAGE_EVENT_PATH = "/preferences/sync";
+
+    public PreferencesSaveService(){
+        super("PreferencesSaveService");
+    }
 
     @Override
     public void onCreate() {
