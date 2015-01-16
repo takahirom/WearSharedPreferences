@@ -69,6 +69,7 @@ public class WearSharedPreference {
     }
 
     public void sync(final OnSyncListener syncListener) {
+        updatePreference();
         mWearBundleSyncer.get(mBundle, new WearBundleSyncer.WearGetCallBack() {
             @Override
             public void onGet() {
