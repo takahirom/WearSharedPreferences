@@ -1,0 +1,91 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.gms:play-services-wearable:6.1.71'
+    compile 'com.kogitune:library:0.0.1'
+}
+group = 'com.kogitune'
+version = '0.0.1'
+
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+
+def siteUrl = 'https://github.com/takahirom/WearSharedPreferences'
+def gitUrl = 'https://github.com/takahirom/WearSharedPreferences.git'
+bintray {
+    user = "takahirom"
+    key = file("key").text
+
+    configurations = ['archives'] //When uploading configuration files
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = 'WearSharedPreferences'
+        desc = 'Android Wear and Phone App sync SharedPreferences'
+        websiteUrl = siteUrl
+        issueTrackerUrl = 'https://github.com/takahirom/WearSharedPreferences/issues'
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
+        labels = ['aar', 'android', 'wear', 'SharedPreferences']
+        publicDownloadNumbers = true
+    }
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}

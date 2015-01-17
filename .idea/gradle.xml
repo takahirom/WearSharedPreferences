@@ -10,7 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/wear" />
-            <option value="$PROJECT_DIR$/wearsharedpreferenceslib" />
+            <option value="$PROJECT_DIR$/wear-shared-preferences" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -1,1 +1,1 @@
-include ':app', ':wear', ':wearsharedpreferenceslib'
+include ':app', ':wear', ':wear-shared-preferences'

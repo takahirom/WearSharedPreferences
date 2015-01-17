@@ -95,7 +95,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="junit-dep-4.10" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.1" level="project" />
-    <orderEntry type="module" module-name="wearsharedpreferenceslib" exported="" />
+    <orderEntry type="module" module-name="wear-shared-preferences" exported="" />
   </component>
 </module>
 
