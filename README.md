@@ -5,6 +5,16 @@ Android Wear and Phone App sync SharedPreferences
 
 [![Build Status](https://travis-ci.org/takahirom/WearSharedPreferences.svg?branch=0.0.1-alpha)](https://travis-ci.org/takahirom/WearSharedPreferences)
 
+## Usage
+In Mobile and Wear module build.gradle:  
+**You must be implemented in both the Mobile and Wear**
+
+```
+dependencies {
+    ...
+    compile 'com.kogitune:wear-shared-preferences:0.0.1'
+}
+```
 
 ## Example
 
@@ -28,6 +38,8 @@ allprojects {
 
 ### Code
 
+#### Saving and syncing SharedPreference value.
+
 ```
 final WearSharedPreference preference = new WearSharedPreference(context);
 preference.put(getString(R.string.key_preference_photo_url), photoUrl);
@@ -41,6 +53,12 @@ preference.sync(new WearSharedPreference.OnSyncListener() {
     public void onFail(Exception e) {
     }
 });
+```
+
+#### Getting SharedPreferences value.
+
+```
+String beforePhotoUrl = new WearSharedPreference(this).get(getString(R.string.key_preference_photo_url), "");
 ```
 
 ## Suggestion
