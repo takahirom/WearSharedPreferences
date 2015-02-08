@@ -32,7 +32,9 @@ public class SharedPreferenceUtil {
         while (it.hasNext()) {
             String key = it.next();
             Object o = bundle.get(key);
-            Log.d(TAG, "key:'" + key + "' value:" + o);
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, "key:'" + key + "' value:" + o);
+            }
             if (o == null) {
                 ed.remove(key);
             } else if (o instanceof Integer) {
