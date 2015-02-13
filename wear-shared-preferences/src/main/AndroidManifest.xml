@@ -17,7 +17,9 @@
             android:name=".WearListenerReceiver"
             android:enabled="true"
             android:exported="true" >
-            <intent-filter>
+            <intent-filter
+                android:priority="100"
+                >
                 <action android:name="WearListenerReceiver" />
             </intent-filter>
         </receiver>

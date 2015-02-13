@@ -42,7 +42,7 @@ dependencies {
     compile 'com.kogitune:wear-listener-service-broadcaster:0.0.3'
 }
 group = 'com.kogitune'
-version = '0.0.1'
+version = '0.0.2'
 
 
 apply plugin: 'maven'

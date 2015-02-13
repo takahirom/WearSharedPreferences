@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,7 +30,7 @@ public class PreferencesSaveService extends IntentService {
 
     public static final String MESSAGE_EVENT_PATH = "/preferences/sync";
 
-    public PreferencesSaveService(){
+    public PreferencesSaveService() {
         super("PreferencesSaveService");
     }
 
@@ -57,13 +56,7 @@ public class PreferencesSaveService extends IntentService {
         if (!MESSAGE_EVENT_PATH.equals(path)) {
             return;
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                tellSavedPreferences(data, requestId);
-            }
-        }).start();
-
+        tellSavedPreferences(data, requestId);
     }
 
     private void tellSavedPreferences(byte[] data, int requestId) {
@@ -76,12 +69,7 @@ public class PreferencesSaveService extends IntentService {
             return;
         }
 
-        byte[] bundleBytes = data;
-        final Parcel parcel = Parcel.obtain();
-        parcel.unmarshall(bundleBytes, 0, bundleBytes.length);
-        parcel.setDataPosition(0);
-        Bundle bundle = (Bundle) parcel.readBundle();
-        parcel.recycle();
+        Bundle bundle = convertToBundle(data);
 
         SharedPreferences wearSharedPreference = getSharedPreferences(WearSharedPreference.WEAR_SHARED_PREFERENCE_NAME, MODE_MULTI_PROCESS);
 
@@ -103,10 +91,22 @@ public class PreferencesSaveService extends IntentService {
                 .setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
                     public void onResult(DataApi.DataItemResult dataItemResult) {
-                        Log.d(TAG, "putDataItem status: "
-                                + dataItemResult.getStatus().toString());
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "putDataItem status: "
+                                    + dataItemResult.getStatus().toString());
+                        }
                     }
                 });
+    }
+
+    public static Bundle convertToBundle(byte[] data) {
+        byte[] bundleBytes = data;
+        final Parcel parcel = Parcel.obtain();
+        parcel.unmarshall(bundleBytes, 0, bundleBytes.length);
+        parcel.setDataPosition(0);
+        Bundle bundle = (Bundle) parcel.readBundle();
+        parcel.recycle();
+        return bundle;
     }
 
 

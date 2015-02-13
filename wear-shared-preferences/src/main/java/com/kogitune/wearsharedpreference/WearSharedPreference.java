@@ -1,25 +1,39 @@
 package com.kogitune.wearsharedpreference;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
+
+import com.kogitune.wearablelistenerservicebroadcaster.WearListenerService;
 
 /**
  * Created by takam on 2014/12/21.
  */
 public class WearSharedPreference {
 
+
     public interface OnSyncListener {
         public void onSuccess();
 
         public void onFail(Exception e);
     }
+
+    public interface OnPreferenceChangeListener {
+        public void onPreferenceChange(WearSharedPreference preference, String key, Bundle bundle);
+    }
+
+    private String TAG = "WearSharedPreference";
     public static final String WEAR_SHARED_PREFERENCE_NAME = "WearSharedPreference";
 
     private final Context mContext;
     private SharedPreferences mPreferences;
     private final Bundle mBundle;
     private final WearBundleSyncer mWearBundleSyncer;
+    private OnPreferenceChangeListener mPreferenceChangeListener;
 
     public WearSharedPreference(Context context) {
         mContext = context;
@@ -83,4 +97,39 @@ public class WearSharedPreference {
             }
         });
     }
+
+    public void registerOnPreferenceChangeListener(final OnPreferenceChangeListener preferenceChangeListener) {
+        updatePreference();
+        mPreferenceChangeListener = preferenceChangeListener;
+        final String receiverAction = WearListenerService.ACTION_WEAR_LISTENER_RECEIVER;
+        final IntentFilter intentFilter = new IntentFilter(receiverAction);
+        // for after save preferences
+        intentFilter.setPriority(0);
+        mContext.getApplicationContext().registerReceiver(mWearBroadcastReceiver, intentFilter);
+    }
+
+    public void unregisterOnPreferenceChangeListener(){
+        mContext.getApplicationContext().unregisterReceiver(mWearBroadcastReceiver);
+    }
+
+    BroadcastReceiver mWearBroadcastReceiver =  new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String  path = intent.getStringExtra(WearListenerService.MESSAGE_EVENT_PATH_KEY);
+            if (!TextUtils.equals(PreferencesSaveService.MESSAGE_EVENT_PATH, path)) {
+                return;
+            }
+
+            final byte[] data = intent.getByteArrayExtra(WearListenerService.MESSAGE_EVENT_DATA_KEY);
+            if (data == null) {
+                return;
+            }
+            final Bundle bundle = PreferencesSaveService.convertToBundle(data);
+            for (String key : bundle.keySet()) {
+                mPreferenceChangeListener.onPreferenceChange(WearSharedPreference.this, key, bundle);
+            }
+        }
+    };
+
+
 }

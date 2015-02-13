@@ -8,11 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.kogitune.wearsharedpreference.WearSharedPreference;
 
 
-public class MainActivity extends Activity {
+public class
+        MainActivity extends Activity implements WearSharedPreference.OnPreferenceChangeListener {
 
     String TAG = "MainActivity";
     private WearSharedPreference mWearSharedPreference;
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mWearSharedPreference = new WearSharedPreference(MainActivity.this);
+        mWearSharedPreference.registerOnPreferenceChangeListener(this);
         setupIterateButton();
         setupEditText();
     }
@@ -99,5 +102,11 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onPreferenceChange(WearSharedPreference preference, String key, Bundle bundle) {
+        Toast.makeText(this, "PreferenceChanged:" + key, Toast.LENGTH_LONG).show();
     }
 }

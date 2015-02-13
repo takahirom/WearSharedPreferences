@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -64,7 +65,7 @@ abstract class WearSyncer implements GoogleApiClient.OnConnectionFailedListener,
                 }
 
                 final Collection<String> nodes = getNodes();
-                if (nodes.size() == 0) {
+                if (nodes == null || nodes.size() == 0) {
                     callFailOnUIThread(new RuntimeException("There is no node that is connected."));
                     return;
                 }
@@ -170,8 +171,17 @@ abstract class WearSyncer implements GoogleApiClient.OnConnectionFailedListener,
 
     private HashSet<String> getNodes() {
         HashSet<String> results = new HashSet<String>();
-        NodeApi.GetConnectedNodesResult nodes =
-                Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+        NodeApi.GetConnectedNodesResult nodes = null;
+        try {
+            nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, "Exception in getConnectedNodes", e);
+            }
+        }
+        if (nodes == null) {
+            return null;
+        }
         for (Node node : nodes.getNodes()) {
             results.add(node.getId());
         }
