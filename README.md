@@ -12,7 +12,7 @@ In Mobile and Wear module build.gradle:
 ```
 dependencies {
     ...
-    compile 'com.kogitune:wear-shared-preferences:0.0.1'
+    compile 'com.kogitune:wear-shared-preferences:0.0.2'
 }
 ```
 
@@ -60,6 +60,34 @@ preference.sync(new WearSharedPreference.OnSyncListener() {
 ```
 String beforePhotoUrl = new WearSharedPreference(this).get(getString(R.string.key_preference_photo_url), "");
 ```
+
+#### Knowing change event of SharedPreferences value.
+
+If you want to know change event of preferences by wear and phone, You can use 'registerOnPreferenceChangeListener'.
+
+```
+    @Override
+    protected void onStart() {
+        super.onStart();
+        wearPref.registerOnPreferenceChangeListener(new WearSharedPreference.OnPreferenceChangeListener() {
+            @Override
+            public void onPreferenceChange(WearSharedPreference preference, String key, Bundle bundle) {
+                if (!TextUtils.equals(getString(R.string.key_preference_photo_url), key)) {
+                    return;
+                }
+                final String photoUrl = bundle.getString(key);
+                // You can use changed photoUrl.
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        wearPref.unregisterOnPreferenceChangeListener();
+    }
+```
+
 
 ## Suggestion
 
