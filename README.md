@@ -4,6 +4,7 @@ WearSharedPreferences
 Android Wear and Phone App sync SharedPreferences
 
 [![Build Status](https://travis-ci.org/takahirom/WearSharedPreferences.svg?branch=0.0.1-alpha)](https://travis-ci.org/takahirom/WearSharedPreferences)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WearSharedPreferences-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1496)
 
 ## Usage
 In Mobile and Wear module build.gradle:  
