@@ -53,7 +53,9 @@ def siteUrl = 'https://github.com/takahirom/WearSharedPreferences'
 def gitUrl = 'https://github.com/takahirom/WearSharedPreferences.git'
 bintray {
     user = "takahirom"
-    key = file("key").text
+    if (file("key").exists()) {
+        key = file("key").text
+    }
 
     configurations = ['archives'] //When uploading configuration files
     publish = true
