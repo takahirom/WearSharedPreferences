@@ -122,30 +122,28 @@ abstract class WearSyncer implements GoogleApiClient.OnConnectionFailedListener,
 
     private void sendUrlToEachNode(Bundle bundle, Collection<String> nodes) {
         mPendingResult = null;
-
-        String node = nodes.iterator().next();
-
-
         final Parcel parcel = Parcel.obtain();
         bundle.writeToParcel(parcel, 0);
         byte[] byteArray = parcel.marshall();
         parcel.recycle();
 
-        mPendingResult = Wearable.MessageApi
-                .sendMessage(mGoogleApiClient, node, PreferencesSaveService.MESSAGE_EVENT_PATH, byteArray);
-        mPendingResult.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
-            @Override
-            public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-                mReqId = sendMessageResult.getRequestId();
-                if (mDataMap == null) {
-                    return;
-                }
+        for (String node : nodes) {
+            mPendingResult = Wearable.MessageApi
+                    .sendMessage(mGoogleApiClient, node, PreferencesSaveService.MESSAGE_EVENT_PATH, byteArray);
+            mPendingResult.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+                @Override
+                public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                    mReqId = sendMessageResult.getRequestId();
+                    if (mDataMap == null) {
+                        return;
+                    }
 
-                if (mDataMap.containsKey("reqId:" + mReqId)) {
-                    mInTimeCountDownLatch.countDown();
+                    if (mDataMap.containsKey("reqId:" + mReqId)) {
+                        mInTimeCountDownLatch.countDown();
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
