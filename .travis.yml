@@ -1,5 +1,4 @@
 language: android
-bundler_args: --retry 3
 android:
   components:
   - build-tools-21.1.2
